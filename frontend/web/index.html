@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDG Alicante Badge Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="main.dart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Badges GDG Alicante</h1>
+        <p id="event-info" style="display: none;">Cargando información del evento...</p>
+        <h2 id="event-name" style="display: none;"></h2>
+        <div id="event-selector-placeholder" style="display: none;">
+            <label for="event-selector">Selecciona un evento:</label>
+            <select id="event-selector"></select>
+        </div>
+        <form id="claim-form">
+            <div class="form-group">
+                <label for="email-input">Email:</label>
+                <input type="email" id="email-input" name="email" required>
+            </div>
+            <button type="submit" id="submit-button">Generar Badge</button>
+        </form>
+        <div id="status"></div>
+    </div>
+</body>
+</html>

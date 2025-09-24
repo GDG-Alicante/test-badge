@@ -1,0 +1,47 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: |
+            ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: 'Build and push container image'
+        run: |
+          gcloud builds submit --tag "gcr.io/${{ env.PROJECT_ID }}/backend:latest" ./backend
+
+      - name: 'Deploy to Cloud Run'
+        id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v1'
+        with:
+          service: 'gdg-event-badges-backend' # You might want to make this configurable
+          image: 'gcr.io/${{ env.PROJECT_ID }}/backend:latest'
+          region: 'us-central1' # You might want to make this configurable
+          env_vars:
+            GCP_PROJECT_ID: ${{ env.PROJECT_ID }}
+            GITHUB_REPO_OWNER: ${{ github.repository_owner }}
+            GITHUB_REPO_NAME: ${{ github.event.repository.name }}
+            GITHUB_TOKEN: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+
+      - name: 'Store service URL'
+        run: |
+          echo "Service URL: ${{ steps.deploy.outputs.url }}" >&2
+
+    env:
+      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # Assuming you'll set this as a secret

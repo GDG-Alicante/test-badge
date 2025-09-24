@@ -1,0 +1,23 @@
+name: gdg_alicante_badges_backend
+description: Backend server for the GDG Alicante Badges generator.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  args: ^2.4.2
+  crypto: ^3.0.3
+  csv: ^6.0.0
+  firedart: ^0.9.8
+  github: ^9.25.0
+  googleapis: ^14.0.0
+  googleapis_auth: ^1.6.0
+  image: ^4.1.7
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  shelf_cors_headers: ^0.1.5
+
+dev_dependencies:
+  lints: ^3.0.0
